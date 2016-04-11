@@ -35,14 +35,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Group"
-        android:id="@+id/createGroup"
-        android:layout_above="@+id/sendInvite"
-        android:layout_alignStart="@+id/viewProfile" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Send Group Invite"
         android:id="@+id/sendInvite"
         android:layout_above="@+id/sendMessage"
@@ -53,15 +45,16 @@
         android:layout_height="wrap_content"
         android:text="Send Message"
         android:id="@+id/sendMessage"
-        android:layout_above="@+id/viewProfile"
+        android:layout_above="@+id/viewGroupMembers"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Profile"
-        android:id="@+id/viewProfile"
+        android:text="View Group Members"
+        android:id="@+id/viewGroupMembers"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

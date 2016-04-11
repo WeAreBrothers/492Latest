@@ -4,8 +4,17 @@
     <string name="facebook_app_id">1031886990202467</string>
     <!--string name="facebook_app_id">879352308853540</string-->
     <!--string name="facebook_app_id">1658371707761397</string-->
-    <string-array name="menu_array">
-        <item>Search</item>
-        <item>About</item>
+
+    <string-array name="search_preferences">
+        <item>Course Name</item>
+        <item>Course Number</item>
+        <item>Instructor</item>
+        <item>Both Course Name and Course Number</item>
+        <item>Both Course Name and Instructor</item>
+        <item>All of the Above</item>
     </string-array>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/loginscreenpic"
         android:id="@+id/layout_info1"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="horizontal">
     </LinearLayout>
 
@@ -19,9 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        android:layout_marginBottom="0dp"
+        android:layout_alignParentBottom="false">
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/image"
@@ -30,7 +31,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="50dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -40,7 +41,7 @@
             android:textStyle="bold"
             android:layout_below="@+id/layout_info"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="58dp"
             android:textSize="20dp"
             android:gravity="center"/>
 
@@ -62,57 +63,48 @@
         android:layout_height="wrap_content"
         android:text="Add Classes"
         android:id="@+id/classButton"
-        android:visibility="gone"
+        android:visibility="visible"
         android:onClick="classReg"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/login_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/searchButton"
+        android:layout_alignParentStart="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search Classes"
         android:id="@+id/searchButton"
+        android:visibility="visible"
+        android:onClick="classNav"
         android:layout_below="@+id/classButton"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        android:onClick="classNav"/>
+        android:layout_toEndOf="@+id/layout_info1" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Invites"
         android:id="@+id/viewInvites"
+        android:visibility="visible"
         android:layout_below="@+id/searchButton"
-        android:visibility="gone"
-        android:layout_alignStart="@+id/searchButton"
-        android:layout_alignEnd="@+id/searchButton" />
+        android:layout_alignEnd="@+id/searchButton"
+        android:layout_alignStart="@+id/searchButton" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="313dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Messages"
-        android:id="@+id/viewMsg"
-        android:visibility="gone"
-        android:layout_below="@+id/viewInvites"
-        android:layout_alignEnd="@+id/viewInvites"
-        android:layout_alignStart="@+id/viewInvites"
-        android:onClick="getMsgs"/>
+        android:id="@+id/button"
+        android:layout_alignTop="@+id/viewInvites"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Groups"
-        android:id="@+id/viewGroups"
-        android:visibility="gone"
-        android:layout_below="@+id/viewMsg"
-        android:layout_alignEnd="@+id/viewMsg"
-        android:layout_alignStart="@+id/viewMsg"
-        android:onClick="getGroups"/>
 </RelativeLayout>

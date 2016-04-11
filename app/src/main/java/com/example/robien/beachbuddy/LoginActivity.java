@@ -1,5 +1,6 @@
 package com.example.robien.beachbuddy;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -65,50 +66,79 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    private TextView info;
+    static TextView info;
     private LoginButton loginButton;
 
     public static TextView email;
-    private TextView gender;
+    //private TextView gender;
     public static TextView facebookName;
-    private LinearLayout infoLayout;
-    private LinearLayout relLayout;
-    private ProfilePictureView profilePictureView;
-    private Button classButt;
-    private Button searchButt;
-    private Button viewInvites;
-    private String sName, sEmail, sFbId;
-    public static String responseString, className;
+    private static LinearLayout infoLayout;
+    private static LinearLayout relLayout;
+    static ProfilePictureView profilePictureView;
+    private static Button classButt;
+    private static Button searchButt;
+    private static Button viewInvites;
+    private static Button viewMessages;
+    private static Button viewGroups;
+    private String sName, sFbId;
+    public static String inviteName, inviteID, responseString, sEmail;
 
+    static boolean isLoggedIn;
+    static JSONObject logger;
+
+    InviteAdapter inviteAdapter;
+/*
     //check logged in state
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
-        //Check if user is currently logged in
-        if (AccessToken.getCurrentAccessToken() != null && com.facebook.Profile.getCurrentProfile() != null){
-            //status is logged in
-            loginButton.setVisibility(View.VISIBLE);
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//log out
-                    LoginManager.getInstance().logOut();
-                    isLoggedIn();
-                }
-            });
-        }
-
+        Log.v("login", "login is: " +  isLoggedIn);
+        Log.v("object","login is:" + logger);
 
         setContentView(R.layout.login_layout);
+        if(isLoggedIn == true){
+            loginButton = (LoginButton) findViewById(R.id.login_button);
+
+            email = (TextView)findViewById(R.id.email);
+            facebookName = (TextView)findViewById(R.id.name);
+
+
+            infoLayout = (LinearLayout)findViewById(R.id.layout_info);
+            relLayout = (LinearLayout)findViewById(R.id.layout_info1);
+            profilePictureView = (ProfilePictureView)findViewById(R.id.image);
+            classButt = (Button)findViewById(R.id.classButton);
+            searchButt = (Button)findViewById(R.id.searchButton);
+            viewInvites = (Button)findViewById(R.id.viewInvites);
+            viewMessages = (Button)findViewById(R.id.viewMsg);
+            viewGroups = (Button)findViewById(R.id.viewGroups);
+            setProfileToView(logger);
+
+        }
+        else if(isLoggedIn == false){
+            setContentView(R.layout.login_layout);
+            email = (TextView)findViewById(R.id.email);
+            facebookName = (TextView)findViewById(R.id.name);
+
+
+            infoLayout = (LinearLayout)findViewById(R.id.layout_info);
+            relLayout = (LinearLayout)findViewById(R.id.layout_info1);
+            profilePictureView = (ProfilePictureView)findViewById(R.id.image);
+            classButt = (Button)findViewById(R.id.classButton);
+            searchButt = (Button)findViewById(R.id.searchButton);
+            viewInvites = (Button)findViewById(R.id.viewInvites);
+            viewMessages = (Button)findViewById(R.id.viewMsg);
+            viewGroups = (Button)findViewById(R.id.viewGroups);
+        }
+
         info = (TextView) findViewById(R.id.info);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -126,9 +156,10 @@ public class LoginActivity extends AppCompatActivity {
         }
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
+/*
         email = (TextView)findViewById(R.id.email);
         facebookName = (TextView)findViewById(R.id.name);
-        gender = (TextView)findViewById(R.id.gender);
+
 
         infoLayout = (LinearLayout)findViewById(R.id.layout_info);
         relLayout = (LinearLayout)findViewById(R.id.layout_info1);
@@ -137,27 +168,26 @@ public class LoginActivity extends AppCompatActivity {
         searchButt = (Button)findViewById(R.id.searchButton);
         viewInvites = (Button)findViewById(R.id.viewInvites);
         //loginButton.setReadPermissions(Arrays.asList("public_profile"));
+
+ */
         loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
+                isLoggedIn = true;
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
-
-
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 Log.v("Main", response.toString());
+                                logger = object;
                                 setProfileToView(object);
-
                                 registerAccount(object);
 
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender, birthday");
+                parameters.putString("fields", "id,name,email, birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -171,6 +201,22 @@ public class LoginActivity extends AppCompatActivity {
 
                 info.setText("Login attempt failed.");
             }
+
+        });
+
+
+        loginButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+        public void onClick(View v){
+                if(isLoggedIn == true){
+                isLoggedIn = false;
+                Log.v("login", "login is 2: " +  isLoggedIn);
+                LoginManager.getInstance().logOut();
+                startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                }
+
+            }
         });
 
         viewInvites = (Button)findViewById(R.id.viewInvites);
@@ -178,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
         viewInvites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getInvites(v);
+                getJSONInvites(v);
             }
         });
 
@@ -190,14 +236,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
     private void setProfileToView(JSONObject jsonObject) {
         try {
             email.setText(jsonObject.getString("email"));
-
-
             sEmail = email.getText().toString();
-
-            gender.setText(jsonObject.getString("gender"));
             facebookName.setText(jsonObject.getString("name"));
 
             profilePictureView.setPresetSize(ProfilePictureView.NORMAL);
@@ -207,6 +250,12 @@ public class LoginActivity extends AppCompatActivity {
             classButt.setVisibility(View.VISIBLE);
             searchButt.setVisibility(View.VISIBLE);
             viewInvites.setVisibility(View.VISIBLE);
+            viewMessages.setVisibility(View.VISIBLE);
+            viewGroups.setVisibility(View.VISIBLE);
+
+            //check messages in background
+            getMessageNotification();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }}
@@ -240,7 +289,17 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(goToMainPageIntent);
     }
 
-    class FetchInvites extends AsyncTask<Void, Void, String> {
+    public void getMsgs(View view){
+        Intent goToMainPageIntent = new Intent(this,MessageView.class);
+        startActivity(goToMainPageIntent);
+    }
+
+    public void getGroups(View view){
+        Intent goToGroupsIntent = new Intent(this, GroupsView.class);
+        startActivity(goToGroupsIntent);
+    }
+
+    class GetJSONInvites extends AsyncTask<Void, Void, String> {
         String fetchInvite_url;
         String studentEmail = email.getText().toString();
 
@@ -290,27 +349,92 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             responseString = result;
-
-            JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(responseString);
-                JSONArray jsonArray = jsonObject.getJSONArray("cName");
+                JSONObject jsonObject = new JSONObject(responseString);
+                JSONArray jsonArray = jsonObject.getJSONArray("invites");
                 int count = 0;
-                JSONObject JO = jsonArray.getJSONObject(count);
-                className = JO.getString("cName");
+                ;
+                while(count < jsonArray.length()) {
+                    JSONObject JO = jsonArray.getJSONObject(count);
+                    inviteName = JO.getString("cName");
+                    inviteID = JO.getString("cID");
+                    count++;
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            //Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
             Intent viewInvitesIntent = new Intent(getApplicationContext(), InviteActivity.class);
             startActivity(viewInvitesIntent);
         }
     }
 
-    public void getInvites(View v) {
-        new FetchInvites().execute();
+    public void getJSONInvites(View v) {
+        new GetJSONInvites().execute();
     }
 
+    class GetMessageNotification extends AsyncTask<Void, Void, String> {
+        String fetchMsg;
+        String studentEmail = LoginActivity.email.getText().toString();
+
+        @Override
+        protected void onPreExecute() {
+            fetchMsg = "http://52.25.144.228/msgCheck.php";
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                URL url = new URL(fetchMsg);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String sData = URLEncoder.encode("studentEmail", "UTF-8") + "=" + URLEncoder.encode(studentEmail, "UTF-8");
+                bufferedWriter.write(sData);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream)));
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((responseString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(responseString + "\n");
+                }
+                Log.v("response", "response is:" + responseString);
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            responseString = result;
+            Log.v("responseString", "responseString is:" + responseString);
+            if (responseString.equals("You have unread messages in your inbox")){
+            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+        }
+        }
+    }
+
+    public void getMessageNotification(){
+        new GetMessageNotification().execute();}
 
 
 }

@@ -76,7 +76,7 @@ public class RegClassActivity extends AppCompatActivity {
         finish();
     }
     public void goToMainPage(View view) {
-        Intent goToMainPageIntent = new Intent(this,NavigationActivity.class);
+        Intent goToMainPageIntent = new Intent(this,LoginActivity.class);
         startActivity(goToMainPageIntent);
     }
 }

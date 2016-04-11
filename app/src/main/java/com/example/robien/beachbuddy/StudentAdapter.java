@@ -43,10 +43,13 @@ public class StudentAdapter extends ArrayAdapter {
         StudentHolder studentHolder;
         if(row == null) {
             LayoutInflater layoutInflater = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = layoutInflater.inflate(R.layout.row_layout, parent, false);
+            row = layoutInflater.inflate(R.layout.student_row_layout, parent, false);
             studentHolder = new StudentHolder();
             studentHolder.tx_name = (TextView)row.findViewById(R.id.tx_name);
-            studentHolder.tx_email = (TextView)row.findViewById(R.id.tx_email);
+            studentHolder.tx_className = (TextView)row.findViewById(R.id.tx_cName);
+            studentHolder.tx_classNum = (TextView)row.findViewById(R.id.tx_cNum);
+            studentHolder.tx_instructor = (TextView)row.findViewById(R.id.tx_instructor);
+
             row.setTag(studentHolder);
         }
         else {
@@ -55,12 +58,13 @@ public class StudentAdapter extends ArrayAdapter {
 
         Student student = (Student)this.getItem(position);
         studentHolder.tx_name.setText(student.getName());
-        studentHolder.tx_email.setText(student.getEmail());
-
+        studentHolder.tx_instructor.setText(student.getInstructor());
+        studentHolder.tx_className.setText(student.getClassName());
+        studentHolder.tx_classNum.setText(student.getClassNum());
         return row;
     }
 
     static class StudentHolder {
-        TextView tx_name, tx_email;
+        TextView tx_name, tx_className, tx_classNum, tx_instructor;
     }
 }

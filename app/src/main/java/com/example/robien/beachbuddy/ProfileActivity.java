@@ -1,5 +1,6 @@
 package com.example.robien.beachbuddy;
 
+import android.content.Intent;
 import android.content.pm.PackageInstaller;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -43,11 +45,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    TextView name, email;
-    Button createGroup, addToGroup, sendMessage, viewProfile;
+    static TextView name, email;
+    Button addToGroup, sendMessage, viewGroupMembers;
     private ProfilePictureView profilePictureView;
     URL img_url;
     Bitmap bmp;
+    String previousActivity;
+
+    public static String emailInvite, inviteClassID;
 
 
     @Override
@@ -55,30 +60,23 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-
         profilePictureView = (ProfilePictureView)findViewById(R.id.profilePic);
         name = (TextView)findViewById(R.id.nameText);
         email = (TextView)findViewById(R.id.emailText);
-        createGroup = (Button)findViewById(R.id.createGroup);
-        createGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        name.setText(NavigationActivity.studentName);
+        email.setText(NavigationActivity.studentEmail);
 
-            }
-        });
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
 
         addToGroup = (Button)findViewById(R.id.sendInvite);
         addToGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String acc_reg_url = "http://52.25.144.228/submitinvite.php";
-                String sEmail = NavigationActivity.studentEmail;
-                //String cName = NavigationActivity.cName;
-                String cName = "math";
-                Log.v("sEmail", "sEmail is: " +  sEmail);
-                Log.v("cName", "cName is: " +  cName);
+                emailInvite = NavigationActivity.studentEmail;
+                String cName = NavigationActivity.studentClassName;
+                inviteClassID = NavigationActivity.studentClassID;
                 try {
                     URL url = new URL(acc_reg_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -87,7 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
                     OutputStream OS = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
                     String data = URLEncoder.encode("cName", "UTF-8") + "=" + URLEncoder.encode(cName, "UTF-8") + "&" +
-                            URLEncoder.encode("sEmail", "UTF-8") + "=" + URLEncoder.encode(sEmail, "UTF-8");
+                            URLEncoder.encode("sEmail", "UTF-8") + "=" + URLEncoder.encode(emailInvite, "UTF-8") + "&" +
+                            URLEncoder.encode("cID", "UTF-8") + "=" + URLEncoder.encode(inviteClassID, "UTF-8");
                     bufferedWriter.write(data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
@@ -116,12 +115,12 @@ public class ProfileActivity extends AppCompatActivity {
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(ProfileActivity.this, messenger.class));
             }
         });
 
-        viewProfile = (Button)findViewById(R.id.viewProfile);
-        viewProfile.setOnClickListener(new View.OnClickListener() {
+        viewGroupMembers = (Button)findViewById(R.id.viewGroupMembers);
+        viewGroupMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -133,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-
+        // figure this out for whenever activity is MEMBER
         try {
             img_url = new URL("https://graph.facebook.com/" + NavigationActivity.ID + "/picture");
             bmp = BitmapFactory.decodeStream(img_url.openConnection().getInputStream());
@@ -141,16 +140,12 @@ public class ProfileActivity extends AppCompatActivity {
             profilePictureView.setPresetSize(ProfilePictureView.NORMAL);
             profilePictureView.setVisibility(View.VISIBLE);
 
-            name.setText(NavigationActivity.studentName);
-            email.setText(NavigationActivity.studentEmail);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
