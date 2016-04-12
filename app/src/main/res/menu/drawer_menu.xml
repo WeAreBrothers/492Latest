@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home_id"
+            android:title="Home"
+            android:icon="@drawable/home_icon"></item>
+        <item
+            android:id="@+id/profile_id"
+            android:title="Profile"
+            android:icon="@drawable/profile_icon"></item>
+
+        <item android:title="Classes">
+            <menu>
+                <item
+                    android:id="@+id/addclass_id"
+                    android:title="Add Class"
+                    android:icon="@drawable/addclass_icon"></item>
+                <item
+                    android:id="@+id/search_id"
+                    android:title="Searching"
+                    android:icon="@drawable/search_icon"></item>
+
+            </menu>
+        </item>
+        <item android:title="Social">
+            <menu>
+
+                <item
+                    android:id="@+id/invite_id"
+                    android:title="Invites"
+                    android:icon="@drawable/invite_icon"></item>
+                <item
+                    android:id="@+id/group_id"
+                    android:title="Groups"
+                    android:icon="@drawable/group_icon"></item>
+                <item
+                    android:id="@+id/message_id"
+                    android:title="Messages"
+                    android:icon="@drawable/message_icon"></item>
+            </menu>
+        </item>
+    </group>
+        <item
+            android:id="@+id/setting_id"
+            android:title="Setting"
+            android:icon="@drawable/setting_icon"></item>
+</menu>
