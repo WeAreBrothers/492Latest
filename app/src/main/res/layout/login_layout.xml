@@ -1,118 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <LinearLayout
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.robien.beachbuddy.MainPage"
+    android:id="@+id/drawer_layout"
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/loginscreenpic"
-        android:id="@+id/layout_info1"
-        android:visibility="visible"
-        android:orientation="horizontal">
-    </LinearLayout>
+        android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:id="@+id/layout_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/loginscreenpic"
+            android:id="@+id/layout_info1"
+            android:visibility="visible"
+            android:orientation="horizontal">
+        </LinearLayout>
 
-        <com.facebook.login.widget.ProfilePictureView
-            android:id="@+id/image"
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/main_container"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+            <include
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/toolbar_layout"
+                />
+
+            <com.facebook.login.widget.ProfilePictureView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:text="NAME"
+                android:textStyle="bold"
+                android:layout_below="@+id/layout_info"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp"
+                android:textSize="20dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email"
+                android:text="NAME"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:layout_below="@+id/name"
+                android:layout_centerHorizontal="true" />
+
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:text="Add Classes"
+            android:id="@+id/classButton"
+            android:visibility="gone"
+            android:onClick="classReg"
+            android:layout_below="@+id/login_button"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Classes"
+            android:id="@+id/searchButton"
+            android:layout_below="@+id/classButton"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp" />
+            android:visibility="gone"
+            android:onClick="classNav"/>
 
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:text="NAME"
-            android:textStyle="bold"
-            android:layout_below="@+id/layout_info"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:text="View Invites"
+            android:id="@+id/viewInvites"
+            android:layout_below="@+id/searchButton"
+            android:visibility="gone"
+            android:layout_alignStart="@+id/searchButton"
+            android:layout_alignEnd="@+id/searchButton" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/email"
-            android:text="NAME"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_below="@+id/name"
+            android:layout_gravity="bottom"
+            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Messages"
+            android:id="@+id/viewMsg"
+            android:visibility="gone"
+            android:layout_below="@+id/viewInvites"
+            android:layout_alignEnd="@+id/viewInvites"
+            android:layout_alignStart="@+id/viewInvites"
+            android:onClick="getMsgs"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Classes"
-        android:id="@+id/classButton"
-        android:visibility="gone"
-        android:onClick="classReg"
-        android:layout_below="@+id/login_button"
-        android:layout_centerHorizontal="true" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search Classes"
-        android:id="@+id/searchButton"
-        android:layout_below="@+id/classButton"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        android:onClick="classNav"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Groups"
+            android:id="@+id/viewGroups"
+            android:visibility="gone"
+            android:layout_below="@+id/viewMsg"
+            android:layout_alignEnd="@+id/viewMsg"
+            android:layout_alignStart="@+id/viewMsg"
+            android:onClick="getGroups"/>
+    </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <android.support.design.widget.NavigationView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Invites"
-        android:id="@+id/viewInvites"
-        android:layout_below="@+id/searchButton"
-        android:visibility="gone"
-        android:layout_alignStart="@+id/searchButton"
-        android:layout_alignEnd="@+id/searchButton" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Messages"
-        android:id="@+id/viewMsg"
-        android:visibility="gone"
-        android:layout_below="@+id/viewInvites"
-        android:layout_alignEnd="@+id/viewInvites"
-        android:layout_alignStart="@+id/viewInvites"
-        android:onClick="getMsgs"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Groups"
-        android:id="@+id/viewGroups"
-        android:visibility="gone"
-        android:layout_below="@+id/viewMsg"
-        android:layout_alignEnd="@+id/viewMsg"
-        android:layout_alignStart="@+id/viewMsg"
-        android:onClick="getGroups"/>
-</RelativeLayout>
+        android:id="@+id/navigation_view"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu"
+        ></android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>

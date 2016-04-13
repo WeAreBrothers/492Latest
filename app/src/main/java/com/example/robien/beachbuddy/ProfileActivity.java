@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
     URL img_url;
     Bitmap bmp;
     String previousActivity;
-
     public static String emailInvite, inviteClassID;
 
 
@@ -65,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         email = (TextView)findViewById(R.id.emailText);
         name.setText(NavigationActivity.studentName);
         email.setText(NavigationActivity.studentEmail);
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();

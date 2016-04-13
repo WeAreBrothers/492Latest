@@ -8,8 +8,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,7 +65,7 @@ import java.util.Arrays;
 
 
 // ADD SEARCH TO MENU NEXT TO SETTINGS DOTS LATER
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
     private CallbackManager callbackManager;
@@ -94,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         return accessToken != null;
     }
 */
+
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +149,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         info = (TextView) findViewById(R.id.info);
+
+        /** HASH KEY
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.robien.beachbuddy",
@@ -154,9 +165,9 @@ public class LoginActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
 
         }
-        loginButton = (LoginButton) findViewById(R.id.login_button);
+         */
 
-/*
+        /*
         email = (TextView)findViewById(R.id.email);
         facebookName = (TextView)findViewById(R.id.name);
 
@@ -168,8 +179,9 @@ public class LoginActivity extends AppCompatActivity {
         searchButt = (Button)findViewById(R.id.searchButton);
         viewInvites = (Button)findViewById(R.id.viewInvites);
         //loginButton.setReadPermissions(Arrays.asList("public_profile"));
+        */
 
- */
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -228,6 +240,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        //View headerLayout = navigationView.inflateHeaderView(R.layout.nav_profile_header);
+        //navigationView.addHeaderView(headerLayout);
     }
 
     @Override
@@ -261,6 +283,49 @@ public class LoginActivity extends AppCompatActivity {
         }}
 
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            //uses drawer_menu.xml
+            case R.id.addclass_id:
+                Log.v("sEmail", "sEmail is: " +  sEmail);
+                BackgroundTask bt = new BackgroundTask(this);
+                bt.execute(sEmail);
+                startActivity(new Intent(this, RegClassActivity.class));
+                break;
+            case R.id.search_id:
+                startActivity(new Intent(this,NavigationActivity.class));
+                break;
+            case R.id.home_id:
+                break;
+            case R.id.profile_id:
+                break;
+            case R.id.invite_id:
+                viewInvites = (Button)findViewById(R.id.viewInvites);
+                viewInvites.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getJSONInvites(v);
+                    }
+                });
+                Intent viewInvitesIntent = new Intent(getApplicationContext(), InviteActivity.class);
+                startActivity(viewInvitesIntent);
+                break;
+            case R.id.group_id:
+                startActivity(new Intent(this,GroupsView.class));
+                break;
+            case R.id.message_id:
+                startActivity(new Intent(this,MessageView.class));
+                break;
+
+            case R.id.setting_id:
+                break;
+        }
+
+
+        return true;
+    }
+
     public void registerAccount(JSONObject object) {
         sName = object.optString("name");
         sEmail = email.getText().toString();
@@ -270,12 +335,13 @@ public class LoginActivity extends AppCompatActivity {
         bt.execute(method, sName, sEmail, sFbId);
     }
 
-
+    //going to be not used
     public void userReg(View view) {
 
         startActivity(new Intent(this, RegPersonInfoActivity.class));
     }
 
+    //going to be not used
     public void classReg(View view){
         Log.v("sEmail", "sEmail is: " +  sEmail);
         BackgroundTask bt = new BackgroundTask(this);
@@ -284,20 +350,36 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegClassActivity.class));
     }
 
+        //going to be not used
     public void classNav(View view) {
         Intent goToMainPageIntent = new Intent(this,NavigationActivity.class);
         startActivity(goToMainPageIntent);
     }
 
+    //going to be not used
     public void getMsgs(View view){
         Intent goToMainPageIntent = new Intent(this,MessageView.class);
         startActivity(goToMainPageIntent);
     }
 
+        //going to be not used
     public void getGroups(View view){
         Intent goToGroupsIntent = new Intent(this, GroupsView.class);
         startActivity(goToGroupsIntent);
     }
+    //sets the header, not yet used
+    public void setNavigationHeader(){
+        View header= LayoutInflater.from(this).inflate(R.layout.nav_profile_header,null);
+        navigationView.addHeaderView(header);
+    }
+
+    // hamburger icon
+     @Override
+     protected void onPostCreate(Bundle savedInstanceState) {
+         super.onPostCreate(savedInstanceState);
+         actionBarDrawerToggle.syncState();
+     }
+
 
     class GetJSONInvites extends AsyncTask<Void, Void, String> {
         String fetchInvite_url;
