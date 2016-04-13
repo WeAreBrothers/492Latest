@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -247,7 +248,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         //View headerLayout = navigationView.inflateHeaderView(R.layout.nav_profile_header);
         //navigationView.addHeaderView(headerLayout);
     }
@@ -367,6 +367,19 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         Intent goToGroupsIntent = new Intent(this, GroupsView.class);
         startActivity(goToGroupsIntent);
     }
+    //sets the header, not yet used
+    public void setNavigationHeader(){
+        View header= LayoutInflater.from(this).inflate(R.layout.nav_profile_header,null);
+        navigationView.addHeaderView(header);
+    }
+
+    // hamburger icon
+     @Override
+     protected void onPostCreate(Bundle savedInstanceState) {
+         super.onPostCreate(savedInstanceState);
+         actionBarDrawerToggle.syncState();
+     }
+
 
     class GetJSONInvites extends AsyncTask<Void, Void, String> {
         String fetchInvite_url;

@@ -28,11 +28,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             >
-            <include
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                layout="@layout/toolbar_layout"
-                />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -48,6 +44,11 @@
             android:visibility="gone"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true">
+            <include
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/toolbar_layout"
+                />
 
             <com.facebook.login.widget.ProfilePictureView
                 android:id="@+id/image"
@@ -148,7 +149,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/navigation_view"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_profile_header"
         app:menu="@menu/drawer_menu"
         ></android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

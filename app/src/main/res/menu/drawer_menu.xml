@@ -41,9 +41,13 @@
                     android:icon="@drawable/message_icon"></item>
             </menu>
         </item>
+        <item android:title="Other">
+            <menu>
+                <item
+                    android:id="@+id/setting_id"
+                    android:title="Setting"
+                    android:icon="@drawable/setting_icon"></item>
+            </menu>
+        </item>
     </group>
-        <item
-            android:id="@+id/setting_id"
-            android:title="Setting"
-            android:icon="@drawable/setting_icon"></item>
 </menu>
