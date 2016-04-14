@@ -3,12 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="1">
-
+    <include
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Send Message to user: "
         android:id="@+id/textView2" />
 
     <TextView
@@ -18,9 +22,12 @@
         android:text=""
         android:id="@+id/recipient"
         android:hint="Here"
+        android:textSize="20dp"
+        android:textColor='#000000'
         android:layout_weight="0.04"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -31,7 +38,8 @@
         android:hint="Limit to 140 characters"
         android:editable="true"
         android:maxLength="140"
-        android:layout_marginTop="75dp" />
+        android:layout_below="@+id/recipient"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

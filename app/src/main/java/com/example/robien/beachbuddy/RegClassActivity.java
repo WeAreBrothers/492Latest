@@ -3,6 +3,7 @@ package com.example.robien.beachbuddy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,12 +27,17 @@ public class RegClassActivity extends AppCompatActivity {
     String cname, cid, cyear, iFname, iLname;
     private String sEmail;
     Button ADD_CLASS, DONE_ADDING_GOTO_MAIN;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.regclass_layout);
 
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Class Registration");
         CLASSREG_TEXTVIEW = (TextView)findViewById(R.id.creg_tview);
         CLASS_NAME = (EditText)findViewById(R.id.classnameEText);
         CLASS_ID = (EditText)findViewById(R.id.courseNumEText);

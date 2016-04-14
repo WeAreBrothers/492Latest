@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,7 +50,7 @@ public class NavigationActivity extends AppCompatActivity {
     Spinner searchPref;
     String[] split;
     AlertDialog.Builder builder;
-
+    Toolbar toolbar;
     static String name, email, studentName, studentEmail, studentClassID, studentClassName,
             className, classNum, instructor, c_Name, c_ID;
 
@@ -64,6 +65,11 @@ public class NavigationActivity extends AppCompatActivity {
         search = (Button)findViewById(R.id.search);
         searchClass = (EditText)findViewById(R.id.classSearch);
         listView = (ListView)findViewById(R.id.listView);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Search Classes");
 
         searchPref = (Spinner)findViewById(R.id.searchPreference);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

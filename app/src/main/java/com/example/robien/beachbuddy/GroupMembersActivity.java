@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -49,7 +50,7 @@ public class GroupMembersActivity extends AppCompatActivity {
     EditText msgBox;
     double msgRandom;
     Random rand = new Random();
-
+    Toolbar toolbar;
     public static String sEmail, sName, studentEmail, selectedName, convertedEmail;
 
 
@@ -59,10 +60,16 @@ public class GroupMembersActivity extends AppCompatActivity {
         setContentView(R.layout.group_members_layout);
 
         memberText = (TextView)findViewById(R.id.memberText);
-        memberText.setText("Group Members in " + GroupsView.selectedGroup.getGroupType() + " " +
-                GroupsView.selectedGroup.getGroupID());
+        //memberText.setText("Group Members in " + GroupsView.selectedGroup.getGroupType() + " " +
+                //GroupsView.selectedGroup.getGroupID());
 
         memberList = (ListView)findViewById(R.id.memberList);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Group Members");
+
+
 
         getGroupMemberEmail();
 

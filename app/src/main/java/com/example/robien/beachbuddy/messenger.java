@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,7 @@ public class messenger extends AppCompatActivity {
     String msg, recipient, sender, msgID;
     Random rand = new Random();
     int msgRandom;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,6 +46,13 @@ public class messenger extends AppCompatActivity {
         sendbtn = (Button)findViewById(R.id.sender);
         returnProfile = (Button)findViewById(R.id.profilertn);
         email2 = (TextView)findViewById(R.id.recipient);
+
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Send Message to: ");
+
         email2.setText(NavigationActivity.studentEmail);
         msgbody = (EditText)findViewById(R.id.msgbody);
         msgRandom = rand.nextInt(1000)+1;

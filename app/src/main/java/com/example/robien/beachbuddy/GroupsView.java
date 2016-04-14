@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +40,7 @@ public class GroupsView extends AppCompatActivity {
     JSONObject jsonObject;
     JSONArray jsonArray;
     String response;
-
+    Toolbar toolbar;
     public static Group selectedGroup;
     public static String groupName, groupID;
 
@@ -48,7 +49,14 @@ public class GroupsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.groups_layout);
 
+
         groupList = (ListView)findViewById(R.id.groupList);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Associated Groups");
+
+
 
         getGroups();
 
