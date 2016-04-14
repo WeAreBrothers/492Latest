@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +46,7 @@ public class MessageView extends AppCompatActivity {
     TextView emailFrom, recipView;
     EditText msgBox;
     Button hideSend, profileRtn;
-
+    Toolbar toolbar;
     public static String msgID, messageEmail,sender, msg;
 
     @Override
@@ -55,6 +56,10 @@ public class MessageView extends AppCompatActivity {
         listView2 = (ListView) findViewById(R.id.listView2);
         //sEmail = LoginActivity.sEmail;
 
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Messages");
         //inviteList = (ListView) findViewById(R.id.inviteList);
 
         getFormattedMessages();

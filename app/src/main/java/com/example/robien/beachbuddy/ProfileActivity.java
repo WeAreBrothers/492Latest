@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     Bitmap bmp;
     String previousActivity;
     public static String emailInvite, inviteClassID;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,14 @@ public class ProfileActivity extends AppCompatActivity {
         name.setText(NavigationActivity.studentName);
         email.setText(NavigationActivity.studentEmail);
 
+
+        String profileName = name.getText().toString();
+
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(profileName+"'s Profile");
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();

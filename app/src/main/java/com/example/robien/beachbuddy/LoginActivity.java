@@ -7,13 +7,25 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +58,7 @@ import com.facebook.login.widget.ProfilePictureView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 
 import java.io.BufferedReader;
@@ -90,6 +103,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     static boolean isLoggedIn;
     static JSONObject logger;
 
+
+    public static TextView beachbuddyTV,registerTV;
     InviteAdapter inviteAdapter;
 /*
     //check logged in state
@@ -114,6 +129,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         Log.v("object","login is:" + logger);
 
         setContentView(R.layout.login_layout);
+
+
         if(isLoggedIn == true){
             loginButton = (LoginButton) findViewById(R.id.login_button);
 
@@ -129,7 +146,11 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             viewInvites = (Button)findViewById(R.id.viewInvites);
             viewMessages = (Button)findViewById(R.id.viewMsg);
             viewGroups = (Button)findViewById(R.id.viewGroups);
+            registerTV.setVisibility(View.GONE);
+            beachbuddyTV.setVisibility(View.GONE);
             setProfileToView(logger);
+
+
 
         }
         else if(isLoggedIn == false){
@@ -146,6 +167,20 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             viewInvites = (Button)findViewById(R.id.viewInvites);
             viewMessages = (Button)findViewById(R.id.viewMsg);
             viewGroups = (Button)findViewById(R.id.viewGroups);
+
+            beachbuddyTV = (TextView)findViewById(R.id.loginHeaderBeach);
+            registerTV = (TextView)findViewById(R.id.registerToFB);
+            registerTV.setVisibility(View.VISIBLE);
+            beachbuddyTV.setVisibility(View.VISIBLE);
+            TextView registerFB = (TextView)findViewById(R.id.registerToFB);
+            registerFB.setTextColor(Color.WHITE);
+            registerFB.setMovementMethod(LinkMovementMethod.getInstance());
+            /**
+            registerFB.setClickable(true);
+            registerFB.setMovementMethod(LinkMovementMethod.getInstance());
+            String facebookURL ="<a href ='https://www.facebook.com/r.php'> Register</a>";
+            registerFB.setText(Html.fromHtml(facebookURL));
+             */
         }
 
         info = (TextView) findViewById(R.id.info);
@@ -217,15 +252,15 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         });
 
 
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-        public void onClick(View v){
-                if(isLoggedIn == true){
-                isLoggedIn = false;
-                Log.v("login", "login is 2: " +  isLoggedIn);
-                LoginManager.getInstance().logOut();
-                startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+            public void onClick(View v) {
+                if (isLoggedIn == true) {
+                    isLoggedIn = false;
+                    Log.v("login", "login is 2: " + isLoggedIn);
+                    LoginManager.getInstance().logOut();
+                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                 }
 
             }
@@ -240,7 +275,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             }
         });
 
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -248,6 +282,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         //View headerLayout = navigationView.inflateHeaderView(R.layout.nav_profile_header);
         //navigationView.addHeaderView(headerLayout);
     }
@@ -267,14 +302,16 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
 
             profilePictureView.setPresetSize(ProfilePictureView.NORMAL);
             profilePictureView.setProfileId(jsonObject.getString("id"));
+
             relLayout.setVisibility(View.INVISIBLE);
             infoLayout.setVisibility(View.VISIBLE);
-            classButt.setVisibility(View.VISIBLE);
-            searchButt.setVisibility(View.VISIBLE);
+            //classButt.setVisibility(View.VISIBLE);
+            //searchButt.setVisibility(View.VISIBLE);
             viewInvites.setVisibility(View.VISIBLE);
-            viewMessages.setVisibility(View.VISIBLE);
-            viewGroups.setVisibility(View.VISIBLE);
-
+            //viewMessages.setVisibility(View.VISIBLE);
+            //viewGroups.setVisibility(View.VISIBLE);
+            registerTV.setVisibility(View.GONE);
+            beachbuddyTV.setVisibility(View.GONE);
             //check messages in background
             getMessageNotification();
 
@@ -379,7 +416,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
          super.onPostCreate(savedInstanceState);
          actionBarDrawerToggle.syncState();
      }
-
 
     class GetJSONInvites extends AsyncTask<Void, Void, String> {
         String fetchInvite_url;
