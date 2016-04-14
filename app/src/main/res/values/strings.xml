@@ -7,7 +7,7 @@
     <!--string name="facebook_app_id">1031886990202467</string-->
     <string name="facebook_app_id">879352308853540</string>
     <!--string name="facebook_app_id">1658371707761397</string-->
-
+    <string name="facebookRegisterLink"><a href="https://www.facebook.com/r.php">Register</a></string>
     <string-array name="search_preferences">
         <item>Course Name</item>
         <item>Course Number</item>

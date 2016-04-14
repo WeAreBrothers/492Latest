@@ -17,11 +17,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/loginscreenpic"
+            android:background="@color/facebookBlue"
             android:id="@+id/layout_info1"
             android:visibility="visible"
             android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="378px"
+                android:layout_marginTop="150dp"
+                android:layout_marginLeft="41dp"
+                android:layout_marginRight="41dp"
+                android:id="@+id/pyramidpicture"
+                android:background="@drawable/pyramid">
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:layout_height="match_parent"
@@ -29,11 +53,48 @@
             android:orientation="vertical"
             >
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/main_container"
-                />
+                >
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="78dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loginHeaderBeach"
+                    android:text="BeachBuddy"
+                    android:layout_marginTop="25dp"
+                    android:textStyle="bold|italic"
+                    android:visibility="gone"
+                    android:textSize="62dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+                <TextView
+                    android:text="@string/facebookRegisterLink"
+                    android:id="@+id/registerToFB"
+                    android:visibility="gone"
+                    android:textColor='#ffffff'
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="21dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="42dp"/>
+
+
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +152,6 @@
             android:id="@+id/classButton"
             android:visibility="gone"
             android:onClick="classReg"
-            android:layout_below="@+id/login_button"
             android:layout_centerHorizontal="true" />
         <Button
             android:layout_width="wrap_content"
@@ -108,18 +168,9 @@
             android:layout_height="wrap_content"
             android:text="View Invites"
             android:id="@+id/viewInvites"
-            android:layout_below="@+id/searchButton"
-            android:visibility="gone"
-            android:layout_alignStart="@+id/searchButton"
-            android:layout_alignEnd="@+id/searchButton" />
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="400dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone"/>
 
         <Button
             android:layout_width="wrap_content"
