@@ -106,13 +106,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
 
     public static TextView beachbuddyTV,registerTV;
     InviteAdapter inviteAdapter;
-/*
-    //check logged in state
-    public boolean isLoggedIn() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        return accessToken != null;
-    }
-*/
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -125,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        Log.v("login", "login is: " +  isLoggedIn);
+        Log.v("login", "login is: " + isLoggedIn);
         Log.v("object","login is:" + logger);
 
         setContentView(R.layout.login_layout);
@@ -175,46 +168,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             TextView registerFB = (TextView)findViewById(R.id.registerToFB);
             registerFB.setTextColor(Color.WHITE);
             registerFB.setMovementMethod(LinkMovementMethod.getInstance());
-            /**
-            registerFB.setClickable(true);
-            registerFB.setMovementMethod(LinkMovementMethod.getInstance());
-            String facebookURL ="<a href ='https://www.facebook.com/r.php'> Register</a>";
-            registerFB.setText(Html.fromHtml(facebookURL));
-             */
         }
-
-        info = (TextView) findViewById(R.id.info);
-
-        /** HASH KEY
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.robien.beachbuddy",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-         */
-
-        /*
-        email = (TextView)findViewById(R.id.email);
-        facebookName = (TextView)findViewById(R.id.name);
-
-
-        infoLayout = (LinearLayout)findViewById(R.id.layout_info);
-        relLayout = (LinearLayout)findViewById(R.id.layout_info1);
-        profilePictureView = (ProfilePictureView)findViewById(R.id.image);
-        classButt = (Button)findViewById(R.id.classButton);
-        searchButt = (Button)findViewById(R.id.searchButton);
-        viewInvites = (Button)findViewById(R.id.viewInvites);
-        //loginButton.setReadPermissions(Arrays.asList("public_profile"));
-        */
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday"));
@@ -267,11 +221,12 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         });
 
         viewInvites = (Button)findViewById(R.id.viewInvites);
-        // email, returns classes
         viewInvites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getJSONInvites(v);
+                getJSONInvites();
+                Intent viewInvitesIntent = new Intent(getApplicationContext(), InviteActivity.class);
+                startActivity(viewInvitesIntent);
             }
         });
 
@@ -305,13 +260,14 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
 
             relLayout.setVisibility(View.INVISIBLE);
             infoLayout.setVisibility(View.VISIBLE);
-            //classButt.setVisibility(View.VISIBLE);
-            //searchButt.setVisibility(View.VISIBLE);
+            classButt.setVisibility(View.VISIBLE);
+            searchButt.setVisibility(View.VISIBLE);
             viewInvites.setVisibility(View.VISIBLE);
-            //viewMessages.setVisibility(View.VISIBLE);
-            //viewGroups.setVisibility(View.VISIBLE);
+            viewMessages.setVisibility(View.VISIBLE);
+            viewGroups.setVisibility(View.VISIBLE);
             registerTV.setVisibility(View.GONE);
             beachbuddyTV.setVisibility(View.GONE);
+
             //check messages in background
             getMessageNotification();
 
@@ -338,13 +294,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             case R.id.profile_id:
                 break;
             case R.id.invite_id:
-                viewInvites = (Button)findViewById(R.id.viewInvites);
-                viewInvites.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getJSONInvites(v);
-                    }
-                });
+                getJSONInvites();
                 Intent viewInvitesIntent = new Intent(getApplicationContext(), InviteActivity.class);
                 startActivity(viewInvitesIntent);
                 break;
@@ -482,14 +432,10 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            //Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
-            Intent viewInvitesIntent = new Intent(getApplicationContext(), InviteActivity.class);
-            startActivity(viewInvitesIntent);
         }
     }
 
-    public void getJSONInvites(View v) {
+    public void getJSONInvites() {
         new GetJSONInvites().execute();
     }
 

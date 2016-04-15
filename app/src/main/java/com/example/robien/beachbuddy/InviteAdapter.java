@@ -240,7 +240,7 @@ public class InviteAdapter extends ArrayAdapter {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getContext(), classFromInvite + " " + idFromInvite, Toast.LENGTH_LONG).show();
+
         }
     }
 

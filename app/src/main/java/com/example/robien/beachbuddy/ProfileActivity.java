@@ -47,11 +47,10 @@ public class ProfileActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     static TextView name, email;
-    Button addToGroup, sendMessage, viewGroupMembers;
+    Button addToGroup, sendMessage;
     private ProfilePictureView profilePictureView;
     URL img_url;
     Bitmap bmp;
-    String previousActivity;
     public static String emailInvite, inviteClassID;
     Toolbar toolbar;
 
@@ -125,14 +124,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, messenger.class));
-            }
-        });
-
-        viewGroupMembers = (Button)findViewById(R.id.viewGroupMembers);
-        viewGroupMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 

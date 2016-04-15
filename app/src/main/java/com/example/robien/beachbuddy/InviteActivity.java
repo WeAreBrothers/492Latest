@@ -50,6 +50,12 @@ public class InviteActivity extends AppCompatActivity {
 
         inviteList = (ListView)findViewById(R.id.inviteList);
 
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Invites");
+
         getFormattedInvites();
     }
 

@@ -77,8 +77,10 @@ public class MessageView extends AppCompatActivity {
                 sender = msgSelect.getSender();
                 msg = msgSelect.getMsg();
                 setContentView(R.layout.messenger);
-                emailFrom = (TextView)findViewById(R.id.textView2);
-                emailFrom.setText("Email from: ");
+                toolbar = (Toolbar)findViewById(R.id.toolbar);
+                toolbar.setTitle("");
+                setSupportActionBar(toolbar);
+                toolbar.setTitle("Message from: ");
                 recipView = (TextView)findViewById(R.id.recipient);
                 recipView.setText(sender);
                 msgBox = (EditText)findViewById(R.id.msgbody);
@@ -96,7 +98,6 @@ public class MessageView extends AppCompatActivity {
 
                     }
                 });
-
 
 
                 //Return to Profile

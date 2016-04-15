@@ -93,6 +93,56 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="42dp"/>
 
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Classes"
+                    android:id="@+id/classButton"
+                    android:visibility="gone"
+                    android:onClick="classReg"
+                    android:layout_centerVertical="true"
+                    android:layout_alignStart="@+id/login_button" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search Classes"
+                    android:id="@+id/searchButton"
+                    android:visibility="gone"
+                    android:onClick="classNav"
+                    android:layout_alignTop="@+id/classButton"
+                    android:layout_toEndOf="@+id/classButton" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Invites"
+                    android:id="@+id/viewInvites"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_below="@+id/classButton"
+                    android:layout_toStartOf="@+id/searchButton" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Groups"
+                    android:id="@+id/viewGroups"
+                    android:visibility="gone"
+                    android:onClick="getGroups"
+                    android:layout_alignTop="@+id/viewInvites"
+                    android:layout_toEndOf="@+id/viewInvites" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Messages"
+                    android:id="@+id/viewMsg"
+                    android:visibility="gone"
+                    android:onClick="getMsgs"
+                    android:layout_below="@+id/viewInvites"
+                    android:layout_centerHorizontal="true" />
+
 
             </RelativeLayout>
         </LinearLayout>
@@ -145,54 +195,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Classes"
-            android:id="@+id/classButton"
-            android:visibility="gone"
-            android:onClick="classReg"
-            android:layout_centerHorizontal="true" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Classes"
-            android:id="@+id/searchButton"
-            android:layout_below="@+id/classButton"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            android:onClick="classNav"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Invites"
-            android:id="@+id/viewInvites"
-            android:layout_marginTop="400dp"
-            android:gravity="center"
-            android:visibility="gone"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Messages"
-            android:id="@+id/viewMsg"
-            android:visibility="gone"
-            android:layout_below="@+id/viewInvites"
-            android:layout_alignEnd="@+id/viewInvites"
-            android:layout_alignStart="@+id/viewInvites"
-            android:onClick="getMsgs"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Groups"
-            android:id="@+id/viewGroups"
-            android:visibility="gone"
-            android:layout_below="@+id/viewMsg"
-            android:layout_alignEnd="@+id/viewMsg"
-            android:layout_alignStart="@+id/viewMsg"
-            android:onClick="getGroups"/>
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

@@ -51,7 +51,7 @@ public class messenger extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Send Message to: ");
+        toolbar.setTitle("Send Message To: ");
 
         email2.setText(NavigationActivity.studentEmail);
         msgbody = (EditText)findViewById(R.id.msgbody);
