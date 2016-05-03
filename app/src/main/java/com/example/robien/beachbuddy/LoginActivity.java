@@ -305,7 +305,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 startActivity(new Intent(this,MessageView.class));
                 break;
 
-            case R.id.setting_id:
+            case R.id.help_id:
+                startActivity(new Intent(this, ScreenslideTutorialActivity.class));
                 break;
         }
 
