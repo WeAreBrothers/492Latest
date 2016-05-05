@@ -1,73 +1,191 @@
 package com.example.robien.beachbuddy;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.RadioGroup;
 
-/**
- * Created by Robien on 5/2/2016.
- */
-public class ScreenslideTutorialActivity extends FragmentActivity {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
-    private static final int NUM_PAGES = 5;
+
+public class ScreenslideTutorialActivity extends FragmentActivity
+        implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener{
 
     /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
+     * fields
      */
-    private ViewPager mPager;
+    private static final int NUMBER_OF_PAGES = 5;
+    private RadioGroup radioGroup;
+    ViewPager pager;
 
     /**
-     * The pager adapter, which provides the pages to the view pager widget.
+     * {@inheritDoc}
      */
-    private PagerAdapter mPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tutorial_activity_screenslide);
+        setContentView(R.layout.tutorial_layout);
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        pager = (ViewPager) findViewById(R.id.viewPager);
+        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        pager.addOnPageChangeListener(this);
+
+        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+        radioGroup.setOnCheckedChangeListener(this);
     }
 
+    /*************************************************************
+     * Listeners for ViewPager
+     *************************************************************/
+    /**
+     * When the current page is scrolled
+     * @param position
+     * @param v
+     * @param i
+     */
     @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+    public void onPageScrolled(int position, float v, int i) {
+
+    }
+
+    /**
+     * When a new page becomes selected
+     * @param position
+     */
+    @Override
+    public void onPageSelected(int position) {
+        switch(position) {
+            case 0:
+                radioGroup.check(R.id.radioButton1);
+                break;
+            case 1:
+                radioGroup.check(R.id.radioButton2);
+                break;
+            case 2:
+                radioGroup.check(R.id.radioButton3);
+                break;
+            case 3:
+                radioGroup.check(R.id.radioButton4);
+                break;
+            case 4:
+                radioGroup.check(R.id.radioButton5);
+                break;
+            default:
+                radioGroup.check(R.id.radioButton1);
         }
     }
 
     /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
+     * When the pager is automatically setting to the current page
+     * @param position
      */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+    @Override
+    public void onPageScrollStateChanged(int position) {
+
+    }
+
+    /**
+     * On checked listener to Radio Buttons.
+     * @param group
+     * @param checkedId
+     */
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch(checkedId) {
+            case R.id.radioButton1:
+                pager.setCurrentItem(0);
+                break;
+            case R.id.radioButton2:
+                pager.setCurrentItem(1);
+                break;
+            case R.id.radioButton3:
+                pager.setCurrentItem(2);
+                break;
+            case R.id.radioButton4:
+                pager.setCurrentItem(3);
+                break;
+            case R.id.radioButton5:
+                pager.setCurrentItem(4);
+                break;
+        }
+    }
+
+    /**
+     * Custom PagerAdapter class
+     */
+    private class MyPagerAdapter extends FragmentPagerAdapter{
+
+        /**
+         * Constructor
+         * @param fm
+         */
+        public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        /**
+         * Return fragment based on the position.
+         * @param position
+         * @return
+         */
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            return new TutorialScreenSlideFragment();
+        public Fragment getItem(int position) {
+            switch(position) {
+                case 0:
+                    return FirstFragment.newInstance
+                            ("Opening the app will take you to the login page which consists of the" +
+                                    " app's background image, name, and a login button that logs in with" +
+                                    " your Facebook account. A successful login takes you to the main page shown above" +
+                                    " From the main page the user can access any of the listed options," +
+                                    " allowing them to add classes, search for classes, view their invites," +
+                                    " messages, or groups.  Lastly if they so desire the user is able to" +
+                                    " logout and it will return them to the login screen seen on the left.");
+                case 1:
+                    return SecondFragment.newInstance("From the main page the user can access any of the listed" +
+                            " options, allowing them to add classes, search for classes, view their invites, messages, " +
+                            " or groups.  Lastly if they so desire the user is able to logout and it will return them " +
+                            " to the login screen seen on the left. The right panel shows a user is able to enter " +
+                            " their classes in which they must provide a course name, course #, year, and instructor name. " +
+                            " The bottom panel shows the class search function which allows users to search for other users " +
+                            " who have registered the same or similar classes.");
+                case 2:
+                    return ThirdFragment.newInstance("The search function returns a list of users who are registered" +
+                            " for that specific course.  The user is able to select a profile to view.If the user clicks" +
+                            " ‘Send Group Invite’ an invite is sent to the student" +
+                            " and the user is returned to the home screen.  If the user selects ‘Send Message’ they" +
+                            " are taken to the screen on the right and the user is able to compose a message and send" +
+                            " it to their selected recipient. ");
+                case 3:
+                    return FourthFragment.newInstance("Another core function of the app is the Invite. From the main" +
+                            " page the user can select ‘View Invites’ which is seen here.  This allows the user to accept" +
+                            " an invitation to join a class group, or deny it and delete the invitation. Accepting an invite" +
+                            " puts you in a group of that class invite along with other members who have been invited to the" +
+                            " group and accepted the invite.");
+                case 4:
+                    return FifthFragment.newInstance("From the main screen the user can select to ‘View Messages’. The app will" +
+                            " take you to a screen with listed unread messages if you have any. From this screen the user can" +
+                            " select the message at which point it will take them to the a screen that displays the message, " +
+                            " the sender, and an option to delete the message or return to profile. You can also send a message" +
+                            " back to the sender as shown above. This can be accomplished in a couple of ways. You can search for the person" +
+                            " you want to send the message to. You can also select someone in your group and send them a message" +
+                            " that way as well.");
+                default:
+                    return FirstFragment.newInstance("First, Default");
+            }
         }
 
+        /**
+         * Return the number of pages.
+         * @return
+         */
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return NUMBER_OF_PAGES;
         }
+
+
     }
+
+
 }
